@@ -21,6 +21,8 @@
 /tmp
 *.sql
 *.rar
+import.bat
+config.txt
 
 npm-debug.log*
 yarn-debug.log*

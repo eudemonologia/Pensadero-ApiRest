@@ -48,7 +48,7 @@ async function getPublicacionesByid_usuario(id_usuario) {
 async function getPublicacionesByid_categoria(id_categoria) {
   try {
     const result = await pool.query(
-      "SELECT * FROM publicaciones WHERE id_categoria = ? ORDER BY fecha_creacion DESC",
+      "SELECT publicaciones.*, usuarios.nombre AS autor_nombre, usuarios.apellido AS autor_apellido FROM publicaciones JOIN usuarios ON publicaciones.id_usuario = usuarios.id WHERE publicaciones.id_categoria = ? ORDER BY fecha_creacion DESC",
       [id_categoria]
     );
     return result;

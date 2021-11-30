@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Configuracion del CORS
 app.use(
   cors({
-    origin: "http://localhost:3001",
+    origin: process.env.CORS_ORIGIN,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
   })
