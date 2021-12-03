@@ -13,6 +13,20 @@ async function createPublicacion(data) {
 }
 
 /**
+ * Trae todas las publicaciones.
+ */
+async function getPublicaciones() {
+  try {
+    const result = await pool.query(
+      "SELECT publicaciones.*, usuarios.nombre AS autor_nombre, usuarios.apellido AS autor_apellido FROM publicaciones JOIN usuarios ON publicaciones.id_usuario = usuarios.id ORDER BY fecha_creacion DESC"
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
  * Trae una publicación por su id.
  */
 async function getPublicacionesByid(id) {
@@ -48,7 +62,7 @@ async function getPublicacionesByid_usuario(id_usuario) {
 async function getPublicacionesByid_categoria(id_categoria) {
   try {
     const result = await pool.query(
-      "SELECT publicaciones.*, usuarios.nombre AS autor_nombre, usuarios.apellido AS autor_apellido FROM publicaciones JOIN usuarios ON publicaciones.id_usuario = usuarios.id WHERE publicaciones.id_categoria = ? ORDER BY fecha_creacion DESC",
+      "SELECT publicaciones.*, usuarios.nombre AS autor_nombre, usuarios.apellido AS autor_apellido, GROUP_CONCAT(tags.nombre) AS tags_publicacion FROM publicaciones JOIN usuarios ON publicaciones.id_usuario = usuarios.id LEFT JOIN tag_publicacion ON tag_publicacion.id_publicacion = publicaciones.id LEFT JOIN tags ON tag_publicacion.id_tag = tags.id WHERE publicaciones.id_categoria = ? GROUP BY publicaciones.id ORDER BY fecha_creacion DESC",
       [id_categoria]
     );
     return result;
@@ -75,7 +89,7 @@ async function updatePublicacionById(data, id) {
 /**
  * Actualiza los likes +1 en una publicación por su id
  */
-async function updatePublicacionLikesById(id) {
+async function updatePublicacionSumarLikesById(id) {
   try {
     await pool.query("UPDATE publicaciones SET likes = likes+1 WHERE id = ?", [
       id,
@@ -106,10 +120,11 @@ async function deletePublicacionById(id) {
 
 module.exports = {
   createPublicacion,
+  getPublicaciones,
   getPublicacionesByid,
   getPublicacionesByid_usuario,
   getPublicacionesByid_categoria,
   updatePublicacionById,
-  updatePublicacionLikesById,
+  updatePublicacionSumarLikesById,
   deletePublicacionById,
 };

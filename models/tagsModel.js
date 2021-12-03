@@ -52,6 +52,18 @@ async function getTagsByNombre(nombre) {
   }
 }
 
+async function getTagsByPublicacion(id) {
+  try {
+    const result = await pool.query(
+      "SELECT tags.* FROM tags LEFT JOIN tag_publicacion ON tags.id = tag_publicacion.id_tag WHERE tag_publicacion.id_publicacion = ?",
+      [id]
+    );
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 /**
  * Eliminar un tag por su id.
  */
@@ -69,5 +81,6 @@ module.exports = {
   getTags,
   getTagsByid,
   getTagsByNombre,
+  getTagsByPublicacion,
   deleteTagById,
 };

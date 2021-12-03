@@ -19,6 +19,7 @@
 .env.test.local
 .env.production.local
 /tmp
+/request
 *.sql
 *.rar
 import.bat
