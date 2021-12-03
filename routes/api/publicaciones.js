@@ -161,7 +161,7 @@ router.put("/id/:id", tokenExtractor, async (req, res, next) => {
 });
 
 // Actualiza los likes +1 en una publicación por su id
-router.put("/id/:id/likes", async (req, res, next) => {
+router.put("/id/:id/sumarlike", async (req, res, next) => {
   try {
     let result = await publicacionesModel.updatePublicacionSumarLikesById(
       req.params.id

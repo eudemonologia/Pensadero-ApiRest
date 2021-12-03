@@ -3,7 +3,7 @@ var router = express.Router();
 var nodemailer = require("nodemailer");
 
 // Envia un mensaje de contacto
-router.post("/contacto", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const mail = {
       from: req.body.email,
